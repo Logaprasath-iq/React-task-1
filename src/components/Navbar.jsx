@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-function Navbar() {
+function Navbar({ cartCount = 0, onOpenCart }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
@@ -11,6 +11,13 @@ function Navbar() {
     const targetElement = document.getElementById(sectionId);
     if (targetElement) {
       targetElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleOrderClick = () => {
+    setIsMobileMenuOpen(false);
+    if (onOpenCart) {
+      onOpenCart();
     }
   };
 
@@ -103,14 +110,16 @@ function Navbar() {
           </ul>
         </nav>
 
-        {/* Order Now Button - scrolls straight to the Menu section */}
+        {/* Order Now Button with Counter Badge - opens Order Drawer */}
         <div className="nav-action">
           <button
             type="button"
             className="btn btn-primary order-btn"
-            onClick={() => scrollTo('menu')}
+            onClick={handleOrderClick}
+            aria-label={`View order summary with ${cartCount} items`}
           >
-            Order Now
+            <span>Order Now</span>
+            <span className="order-count-badge">{cartCount}</span>
           </button>
         </div>
 
@@ -179,9 +188,10 @@ function Navbar() {
             <button
               type="button"
               className="btn btn-primary mobile-order-btn"
-              onClick={() => scrollTo('menu')}
+              onClick={handleOrderClick}
             >
-              Order Now
+              <span>Order Now</span>
+              <span className="order-count-badge">{cartCount}</span>
             </button>
           </li>
         </ul>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import FoodCard from './FoodCard';
 
-function FoodMenu() {
+function FoodMenu({ onAddToCart }) {
   const [activeFilter, setActiveFilter] = useState('All');
 
   // 6 Primary Food Items as specified in requirements
@@ -81,8 +81,10 @@ function FoodMenu() {
       ? menuItems
       : menuItems.filter((item) => item.category === activeFilter);
 
-  const handleAddToCart = (item) => {
-    alert(`${item.name} has been added to your cart! 🛒`);
+  const handleAdd = (foodItem) => {
+    if (onAddToCart) {
+      onAddToCart(foodItem);
+    }
   };
 
   return (
@@ -123,7 +125,7 @@ function FoodMenu() {
               image={food.image}
               category={food.category}
               rating={food.rating}
-              onAddToCart={handleAddToCart}
+              onAddToCart={handleAdd}
             />
           ))}
         </div>

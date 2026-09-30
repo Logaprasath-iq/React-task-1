@@ -1,7 +1,7 @@
 function FoodCard({ id, name, description, price, image, category, rating, onAddToCart }) {
   const handleAdd = () => {
     if (onAddToCart) {
-      onAddToCart({ id, name, price });
+      onAddToCart({ id, name, price, image });
     }
   };
 
